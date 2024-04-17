@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"D:\\UnrealEngine_Lee\\HelloUnreal_1\\Source\\HelloUnreal_1\\HelloUnreal_1.Build.cs",
+		"D:\\UnrealEngine_Lee\\HelloUnreal_1\\Source\\HelloUnreal_1.Target.cs",
+		"D:\\UnrealEngine_Lee\\HelloUnreal_1\\Source\\HelloUnreal_1Editor.Target.cs"
+	],
+	"EngineVersion": "5.3.2"
+}
