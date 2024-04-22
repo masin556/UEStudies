@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\uestudies\\part1\\unrealstring\\source\\unrealstring\\unrealstring.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\uestudies\\part1\\unrealstring\\intermediate\\build\\win64\\x64\\unrealstringeditor\\development\\engine\\sharedpch.engine.cpp20.h.pch",
+        "Includes": [
+            "d:\\uestudies\\part1\\unrealstring\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unrealstring\\definitions.unrealstring.h",
+            "d:\\uestudies\\part1\\unrealstring\\source\\unrealstring\\unrealstring.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

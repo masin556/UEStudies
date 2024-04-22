@@ -11,6 +11,7 @@
     <None Include="..\..\Source\UnrealStringEditor.Target.cs">
       <Filter>Source</Filter>
     </None>
+    <None Include="..\..\.vsconfig" />
     <Filter Include="Config">
       <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
     </Filter>
@@ -29,6 +30,12 @@
     <Filter Include="Source\UnrealString">
       <UniqueIdentifier>{A198F183-1700-3AA1-952E-A5FB19BB6445}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\UnrealString\MyGameInstance.cpp">
+      <Filter>Source\UnrealString</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UnrealString\MyGameInstance.h">
+      <Filter>Source\UnrealString</Filter>
+    </ClInclude>
     <None Include="..\..\Source\UnrealString\UnrealString.Build.cs">
       <Filter>Source\UnrealString</Filter>
     </None>
