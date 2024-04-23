@@ -30,4 +30,44 @@ void UMyGameInstance::Init()
 		UE_LOG(LogTemp, Log, TEXT("Find Test : %s"), *EndString);
 	}
 
+	FString Left, Right; // 서브클래스 생성
+	if (LogCharString.Split(TEXT(" "), &Left, &Right))
+	{
+		UE_LOG(LogTemp, Log, TEXT("Split Test: %s 와 %s"), *Left, *Right);
+	}
+
+
+	int32 IntValue = 32;
+	float FloatValue = 3.141592;
+
+	//가장 편한 방식
+	FString FloatIntString = FString::Printf(TEXT("Int : %d Float : %f"), IntValue, FloatValue);
+
+	//단일 value -> string 변환 FString에서 제공하는 float (SanitizerFloat)
+	FString IntString = FString::FromInt(IntValue);
+	FString FloatString = FString::SanitizeFloat(FloatValue);
+
+	UE_LOG(LogTemp, Log, TEXT("%s"), *FloatIntString);
+	UE_LOG(LogTemp, Log, TEXT("Int : %s Float : %s"), *IntString, *FloatString);
+
+
+	//floatstring값을 -> integer로 변환 FCString에서 제공하는 함수 사용
+	int32 IntValueFromString = FCString::Atoi(*IntString);
+	float FloatValueFromString = FCString::Atof(*FloatString);
+
+	FString FloatIntString2 = FString::Printf(TEXT("Int : %d Float : %f"), IntValueFromString, FloatValueFromString);
+	UE_LOG(LogTemp, Log, TEXT("%s"), *FloatIntString2);
+
+
+	//FName 비교하기
+	FName key1(TEXT("PELVIS"));
+	FName key2(TEXT("pelvis"));
+	UE_LOG(LogTemp, Log, TEXT("FName 비교 결과 : %s"), key1 == key2 ? TEXT("같음") : TEXT("다름"));
+
+	//주의할 점
+	for (int i = 0; i < 10000; ++i)
+	{
+		FName SearchInNamePool = FName(TEXT("pelvis"));
+		const static FName StaticOnlyOnce(TEXT("pelvis"));
+	}
 }
