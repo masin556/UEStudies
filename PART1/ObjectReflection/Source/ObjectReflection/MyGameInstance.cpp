@@ -5,6 +5,7 @@
 
 UMyGameInstance::UMyGameInstance()
 {
+	SchoolName = TEXT("기본학교");
 }
 
 void UMyGameInstance::Init()
@@ -28,9 +29,17 @@ void UMyGameInstance::Init()
 	// 에디터의 꺼짐의 번거로움을 없애고 오류를 확인가능하다.
 	//ensure(ClassRuntime != ClassCompile);
 
+	// 메세지를 남기고 싶을때
+	//ensureMsgf(ClassRuntime != ClassCompile, TEXT("일부러 에러를 발생시킨 코드"));
+
+
 	// check 통과시 로그를 볼 수 있다.
 	UE_LOG(LogTemp, Log, TEXT("학교를 담당하는 클래스 이름 : %s"), *ClassRuntime->GetName()/*class이름*/);
 
+	SchoolName = TEXT("언리얼 월드!");
+
+	UE_LOG(LogTemp, Log, TEXT("학교 이름 : %s"), *SchoolName);
+	UE_LOG(LogTemp, Log, TEXT("학교 이름 기본값 : %s"), *GetClass()->GetDefaultObject<UMyGameInstance>()->SchoolName);
 
 	UE_LOG(LogTemp, Log, TEXT("=============================")); //구분선
 }
