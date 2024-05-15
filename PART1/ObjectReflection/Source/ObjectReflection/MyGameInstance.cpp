@@ -57,10 +57,27 @@ void UMyGameInstance::Init()
 	// 리플렉션 시스템 사용
 
 	FString CurrentTeacherName;
+	FString NewTeacherName(TEXT("신씨네")); // 선생님 이름 값 변경
 	FProperty* NameProp = UTeacher::StaticClass()->FindPropertyByName(TEXT("Name"));
 	if (NameProp)
 	{
 		NameProp->GetValue_InContainer(Teacher, &CurrentTeacherName);
 		UE_LOG(LogTemp, Log, TEXT("현재 선생님 이름 %s"), *CurrentTeacherName);
+
+		// 선생님 이름 값 변경
+		NameProp->SetValue_InContainer(Teacher, &NewTeacherName);
+		UE_LOG(LogTemp, Log, TEXT("새로운 선생님이름 %s"), *Teacher->GetName());
 	}
+
+	UE_LOG(LogTemp, Log, TEXT("=============== 리플렉션을 사용한 함수 출력 =============="));
+
+	Student->DoLesson(); // 함수 실행
+
+	UFunction* DoLessonFunc = Teacher->GetClass()->FindFunctionByName(TEXT("DoLesson")); // 포인터 값을 가져와 이름으로 검색
+	if (DoLessonFunc)
+	{
+		Teacher->ProcessEvent(DoLessonFunc, nullptr);
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("============================="));
 }
