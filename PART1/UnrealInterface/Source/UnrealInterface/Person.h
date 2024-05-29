@@ -17,15 +17,12 @@ class UNREALINTERFACE_API UPerson : public UObject
 public:
 	UPerson();
 
-	FString& GetName() { return Name; }
-	void SetName(const FString& InName) { Name = InName; }
+	FORCEINLINE FString& GetName() { return Name; }
+	FORCEINLINE void SetName(const FString& InName) { Name = InName; }
 
 protected:
 	//이름속성추가
 	UPROPERTY()
 	FString Name;
-
-
-
 
 };
