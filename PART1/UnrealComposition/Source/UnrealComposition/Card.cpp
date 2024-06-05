@@ -5,4 +5,6 @@
 
 UCard::UCard()
 {
+	CardType = ECardType::Invalid; //Invalid로 기본값 지정
+	Id = 0;
 }
