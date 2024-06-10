@@ -2,8 +2,9 @@
 
 
 #include "Staff.h"
-
+#include "Card.h"
 UStaff::UStaff()
 {
 	Name = TEXT("신직원");
+	Card->SetCardType(ECardType::Staff);
 }

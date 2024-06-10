@@ -4,7 +4,7 @@
 #include "Student.h"
 #include "Teacher.h"
 #include "Staff.h"
-#include "NoneHuman.h"
+#include "Card.h"
 
 UMyGameInstance::UMyGameInstance()
 {
@@ -16,31 +16,24 @@ void UMyGameInstance::Init()
 	Super::Init();
 
 	UE_LOG(LogTemp, Log, TEXT("====================================="));
-	UNoneHuman* Human = NewObject<UNoneHuman>(); //test
-	// 각 오브젝트 TArray에 묶기 (이곳에 만들어준 Object를 넣어 묶어 줘야한다)
-	TArray<UPerson*> Persons = { NewObject<UStudent>(), NewObject<UTeacher>(), NewObject<UStaff>(), Human};
+	TArray<UPerson*> Persons = { NewObject<UStudent>(), NewObject<UTeacher>(), NewObject<UStaff>() };
 
-
-	//동적가변배열을 통한 것은 ranged for 문 사용하면 Iterate(순회) 할 수 있다)
+	// 어떤 카드를 가지고 있는지
 	for (const auto Person : Persons)
 	{
-		UE_LOG(LogTemp, Log, TEXT("구성원 이름 : %s"), *Person->GetName());
-	}
-	UE_LOG(LogTemp, Log, TEXT("====================================="));
 
-	// 인터페이스 함수 돌려보기
-	for (const auto Person : Persons)
-	{
-		//Person에 대해서 ILessonInterface로 형변환 진행
-		ILessonInterface* LessonInterface = Cast<ILessonInterface>(Person);
-		if (LessonInterface) //이것이 만약 성공하면 인터페이스 구현이 되어있다는 것
+		const UCard* OwnCard = Person->GetCard();
+		check(OwnCard);
+		ECardType CardType = OwnCard->GetCardType();
+		//UE_LOG(LogTemp, Log, TEXT("%s님이 소유한 카드 종류 %d"), *Person->GetName(), CardType);
+
+		/** 열거형 정보를 얻어와서 Enum에 있는 것 출력*/
+		// Text 절대값 사용해 원하는 타입정보를 가져올 수 있다. Script/모듈이름.타입이름
+		const UEnum* CardEnumType = FindObject<UEnum>(nullptr, TEXT("/Script/UnrealComposition.ECardType"));
+		if (CardEnumType) // 있는지 없는지 확인
 		{
-			UE_LOG(LogTemp, Log, TEXT("%s님은 수업에 참여할 수 있습니다."), *Person->GetName());
-			LessonInterface->DoLesson();
-		}
-		else
-		{
-			UE_LOG(LogTemp, Log, TEXT("%s님은 수업에 참여할 수 없습니다."), *Person->GetName());
+			FString CardMetaData = CardEnumType->GetDisplayNameTextByValue((int64)CardType).ToString(); //다국어 지원문자열 출력시 String변환
+			UE_LOG(LogTemp, Log, TEXT("%s님이 소유한 카드 종류 %s"), *Person->GetName(), *CardMetaData);
 		}
 	}
 	UE_LOG(LogTemp, Log, TEXT("====================================="));
