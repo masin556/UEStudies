@@ -35,7 +35,6 @@ public:
 	ECardType GetCardType() const { return CardType; }
 	void SetCardType(ECardType InCardType) { CardType = InCardType; }
 
-
 private:
 	UPROPERTY()
 	ECardType CardType;
@@ -43,6 +42,4 @@ private:
 	//id값
 	UPROPERTY()
 	uint32 Id;
-
-
 };
