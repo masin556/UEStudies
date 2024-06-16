@@ -19,4 +19,9 @@ public:
 	UStudent();
 
 	virtual void DoLesson() override;
+
+	// Cource에 있던 똑같은 함수를 호출해줘야한다.(리턴값이 없고 FString이 두개)
+	//알림정보를 받는 함수
+	void GetNotification(const FString& School, const FString& NewCourseInfo);
+
 };

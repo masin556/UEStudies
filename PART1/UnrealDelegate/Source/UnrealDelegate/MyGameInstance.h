@@ -22,6 +22,10 @@ public:
 	virtual void Init() override;
 
 private:
+	// 학사 시스템 소유 학사정보 : UnrealObject < 포인터로 관리 전방선언 가능
+	// 언리얼 오브젝트의 포인터를 멤버변수로 지정할 때 TObjectPtr 사용
+	UPROPERTY()
+	TObjectPtr<class UCourseInfo> CourseInfo;
 
 	// 학교이름 변수
 	/** 해당 문자열을 언리얼엔진이 관리할 수 있도록 UPROPERTY()설정

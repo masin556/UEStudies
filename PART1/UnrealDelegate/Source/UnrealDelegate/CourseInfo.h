@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "CourceInfo.generated.h"
+#include "CourseInfo.generated.h"
 
 /* 델리게이트 선언 보통 선언시 뒤쪽에 Signature라는 접두사 사용
 *	2개 인수 선언
@@ -14,12 +14,12 @@ DECLARE_MULTICAST_DELEGATE_TwoParams(FCourseInfoOnChangedSignature, const FStrin
  *
  */
 UCLASS()
-class UNREALDELEGATE_API UCourceInfo : public UObject
+class UNREALDELEGATE_API UCourseInfo : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UCourceInfo();
+	UCourseInfo();
 
 	// 객체마냥 델리게이트 정보를 멤버 변수로 선언
 	FCourseInfoOnChangedSignature OnChanged;

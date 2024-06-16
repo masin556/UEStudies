@@ -8,34 +8,30 @@
 
 UMyGameInstance::UMyGameInstance()
 {
-	SchoolName = TEXT("기본학교");
+	SchoolName = TEXT("학교");
 }
 
 void UMyGameInstance::Init()
 {
 	Super::Init();
+	/* CourseInfo를 CDO안에서 생성할 수도 있으나, 외부에서 필요할 때만 생성하도록 처리
+	*	학사정보는 당연히 필요한 것이라 생성자에 선언하는 것도 맞다.
+	*/
+	CourseInfo = NewObject<UCourseInfo>(this);
+	/** 첫번째 인자를 Outer로 지정가능 생성한 객체는 클래스 멤버 변수에 들어가서
+	*관리를 받고 특별한 일이 있지 않는 한 메모리에 계속 유지가 될 것이다.
+	* 이때 MyGameInstance는 CourseInfo를 포함해주어야 한다 그렇기 때문에 Outer를 현재
+	* MyGameInstance로 선언해주면 CourseInfo는 MyGameInstance의 SubObject가 되고
+	* MyGameInstance는 CourseInfo의 Outer가 되는 컴포지션관계를 설정할 수 있다.
+	*/
+
 
 	UE_LOG(LogTemp, Log, TEXT("====================================="));
-	TArray<UPerson*> Persons = { NewObject<UStudent>(), NewObject<UTeacher>(), NewObject<UStaff>() };
 
-	// 어떤 카드를 가지고 있는지
-	for (const auto Person : Persons)
-	{
+	// 학생들
+	UStudent* Student1 = NewObject<UStudent>();
 
-		const UCard* OwnCard = Person->GetCard();
-		check(OwnCard);
-		ECardType CardType = OwnCard->GetCardType();
-		//UE_LOG(LogTemp, Log, TEXT("%s님이 소유한 카드 종류 %d"), *Person->GetName(), CardType);
 
-		/** 열거형 정보를 얻어와서 Enum에 있는 것 출력*/
-		// Text 절대값 사용해 원하는 타입정보를 가져올 수 있다. Script/모듈이름.타입이름
-		const UEnum* CardEnumType = FindObject<UEnum>(nullptr, TEXT("/Script/UnrealComposition.ECardType"));
-		if (CardEnumType) // 있는지 없는지 확인
-		{
-			FString CardMetaData = CardEnumType->GetDisplayNameTextByValue((int64)CardType).ToString(); //다국어 지원문자열 출력시 String변환
-			UE_LOG(LogTemp, Log, TEXT("%s님이 소유한 카드 종류 %s"), *Person->GetName(), *CardMetaData);
-		}
-	}
 	UE_LOG(LogTemp, Log, TEXT("====================================="));
 
 

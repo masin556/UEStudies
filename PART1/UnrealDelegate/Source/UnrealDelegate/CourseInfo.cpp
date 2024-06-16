@@ -1,14 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CourceInfo.h"
+#include "CourseInfo.h"
 
-UCourceInfo::UCourceInfo()
+UCourseInfo::UCourseInfo()
 {
 	Contents = TEXT("기존 학사 정보");
 }
 
-void UCourceInfo::ChangeCourseInfo(const FString& InSchoolName, const FString& InNewContents)
+void UCourseInfo::ChangeCourseInfo(const FString& InSchoolName, const FString& InNewContents)
 {
 	// 새로운 학사 정보가 들어오면 변경
 	Contents = InNewContents;
