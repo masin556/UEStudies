@@ -2,6 +2,7 @@
 
 
 #include "MyGameInstance.h"
+#include "Algo/Accumulate.h" // 합계를 구하는 Accumulate() 함수를 사용할 수 있다.
 
 void UMyGameInstance::Init()
 {
@@ -43,4 +44,19 @@ void UMyGameInstance::Init()
 	// 두 Int32Array와 Int32ArrayCompare가 같은지
 	ensure(Int32Array == Int32ArrayCompare);
 
+
+	/*for문으로 합을 구하는데 아래와 같은 구문으로 사용하면 아래와 같다.
+	* 이때 Accumulate헤더를 추가해서 합을 간단히 계산 할 수있다.
+	*/
+	int32 Sum = 0;
+	for (const int32& Int32Elem : Int32Array)
+	{
+		Sum += Int32Elem;
+	}
+
+	ensure(Sum == 55);
+
+	/*Accumulate() 사용*/
+	int32 SumByAlgo = Algo::Accumulate(Int32Array, 0);
+	ensure(Sum == SumByAlgo);
 }
