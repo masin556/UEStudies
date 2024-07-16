@@ -59,4 +59,28 @@ void UMyGameInstance::Init()
 	/*Accumulate() 사용*/
 	int32 SumByAlgo = Algo::Accumulate(Int32Array, 0);
 	ensure(Sum == SumByAlgo);
+
+
+	/** TSet을 활용한 */
+	TSet<int32> Int32Set;
+	for (int32 ix = 1; ix <= ArrayNum; ++ix)
+	{
+		Int32Set.Add(ix); // Add(), or Emplace / 프리미티브 타입(Primitive Type)이니 Add
+	}
+
+	// RemoveAll 함수가 없기에 하나씩 제거
+	Int32Set.Remove(2);
+	Int32Set.Remove(4);
+	Int32Set.Remove(6);
+	Int32Set.Remove(8);
+	Int32Set.Remove(10);
+
+	// 다시 추가
+	Int32Set.Add(2);
+	Int32Set.Add(4);
+	Int32Set.Add(6);
+	Int32Set.Add(8);
+	Int32Set.Add(10);
+
+	/*위 TArray와 TSet이 어떻게 다른지 확인해보자 */
 }
