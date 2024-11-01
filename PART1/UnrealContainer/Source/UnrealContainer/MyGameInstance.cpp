@@ -4,6 +4,31 @@
 #include "MyGameInstance.h"
 #include "Algo/Accumulate.h" // 합계를 구하는 Accumulate() 함수를 사용할 수 있다.
 
+
+/*11강 구조체와 Map*/
+FString MakeRandomName()
+{
+	// 4*4*4 = 64개의 조합으로 만들수 있는 이름*/
+	TCHAR FirstChar[] = TEXT("김이박최"); // 1. 성씨 나열
+	TCHAR MiddleChar[] = TEXT("상혜지성"); // 2. 성씨와 어울릴 수 있는 중간이름
+	TCHAR LastChar[] = TEXT("수은원연"); // 3. 마지막에 들어갈
+
+	// 랜덤 조합으로 이름 만들기
+	TArray<TCHAR> RandArray; // TArray 경우 TChar 배열을 포함하고 있는 컨테이너
+	RandArray.SetNum(3); // - SetNum()함수 공간확보 및 기본값으로 채워짐
+	RandArray[0] = FirstChar[FMath::RandRange(0, 3)]; //RandArray 첫번째 배열요소에 FMath::RandRange(0, 3)으로 인덱스를 뽑아낸다.
+	RandArray[1] = MiddleChar[FMath::RandRange(0, 3)];
+	RandArray[2] = MiddleChar[FMath::RandRange(0, 3)];
+	/*위 내용은 TCHAR가 3개 배열된 형태 위
+	* TArray구간은 TChar 배열을 포함한 컨테이너로 포인터 값을 넘겨준면 반환값을 FString으로
+	* 지정했기 때문에, 자동으로 FString이 만들어져서 반환된다.
+	*/
+
+	return RandArray.GetData(); // RandArray에 있는 GetData함수를 호출해서 자동으로 FString이 만들어지도록 처리
+}
+
+
+
 void UMyGameInstance::Init()
 {
 	Super::Init();
@@ -83,4 +108,47 @@ void UMyGameInstance::Init()
 	Int32Set.Add(10);
 
 	/*위 TArray와 TSet이 어떻게 다른지 확인해보자 */
+
+
+
+	/*300개의 TArray 구조체와 Map*/
+	const int32 StudentNum = 300;
+	for (int32 ix = 1; ix <= StudentNum; ++ix)
+	{
+		// 담을 수 있는 컨테이너를 헤더에 선언됨
+		/*add()와 Emplace()가 있는데 구조체로 데이터를 집어 넣는 경우 복사비용이 조금 발생할 수 있기에
+		* Emplace를 사용한다.
+		* Emplace() : 복사 비용이 발생할 수 있는 곳에 사용
+		*/
+		StudentsData.Emplace(FStudentData(MakeRandomName(), ix));
+	}
+
+	// 이름들에 대한 TArray 구성
+	TArray<FString> AllStudentsNames;
+
+	Algo::Transform(StudentsData, AllStudentsNames,
+		[](const FStudentData& Val) // 위 TArray에서 사용한 Value값을 첫번째 인자로 가져온다.
+		{
+			// 옮길 데이터 값에 대한 FString값을 return 값으로 준다.
+			return Val.Name; // StudentData의 TArray를 StringTArray로 한번에 호출 가능
+		}
+	);
+
+
+	UE_LOG(LogTemp, Log, TEXT("모든 학생 이름의 수 : %d"), AllStudentsNames.Num()); // 전체갯수를 찍는다.
+
+	// 똑같이 Transform을 사용하지만 Set에 넣어보자.
+	/*
+	* Set은 중복허용을 하지않는다. : 변수명 : AllUniqueNames 선언
+	*/
+
+	TSet<FString> AllUniqueNames;
+	Algo::Transform(StudentsData, AllUniqueNames,
+		[](const FStudentData& Val)
+		{
+			return Val.Name;
+		}
+	);
+
+	UE_LOG(LogTemp, Log, TEXT("중복 없는 학생 이름의 수 : %d"), AllUniqueNames.Num());
 }
