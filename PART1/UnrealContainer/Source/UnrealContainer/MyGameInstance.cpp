@@ -18,7 +18,7 @@ FString MakeRandomName()
 	RandArray.SetNum(3); // - SetNum()함수 공간확보 및 기본값으로 채워짐
 	RandArray[0] = FirstChar[FMath::RandRange(0, 3)]; //RandArray 첫번째 배열요소에 FMath::RandRange(0, 3)으로 인덱스를 뽑아낸다.
 	RandArray[1] = MiddleChar[FMath::RandRange(0, 3)];
-	RandArray[2] = MiddleChar[FMath::RandRange(0, 3)];
+	RandArray[2] = LastChar[FMath::RandRange(0, 3)];
 	/*위 내용은 TCHAR가 3개 배열된 형태 위
 	* TArray구간은 TChar 배열을 포함한 컨테이너로 포인터 값을 넘겨준면 반환값을 FString으로
 	* 지정했기 때문에, 자동으로 FString이 만들어져서 반환된다.
@@ -151,4 +151,60 @@ void UMyGameInstance::Init()
 	);
 
 	UE_LOG(LogTemp, Log, TEXT("중복 없는 학생 이름의 수 : %d"), AllUniqueNames.Num());
+
+
+	/*TMap 사용*/
+	// 기존 TArray로 선언된 것을 TMap으로 변환
+	Algo::Transform(StudentsData, StudentsMap,
+		[](const FStudentData& Val)
+		{
+			// Pair로 return을 해줘야 한다 해당 Pair를 맵과 똑같은 타입을 가진TPair를 선언 생성자로 Value의 Order와 Name을 집어넣어 Pair객체를 생성해서 반환
+			// 위에서 대입해준 300개의 데이터가 들어간 맵이 완성된다.
+			return TPair<int32, FString>(Val.Order, Val.Name);
+		}
+	);
+
+	// Log
+	UE_LOG(LogTemp, Log, TEXT("순번에 따른 학생 맵의 레코드 수 : %d"), StudentsMap.Num());
+
+	// 이름을 키로해서 학생맵 TMap에 Fstring과 int32로 MapByName 이라고 자료구조 선언 일반 Map의 경우 중복을 허용하지 않기 때문에 UniqueName 명으로 선언
+	TMap<FString, int32> StudentsMapByUniqueName;
+
+	Algo::Transform(StudentsData, StudentsMapByUniqueName,
+		[](const FStudentData& Val)
+		{
+			return TPair<FString, int32>(Val.Name, Val.Order);
+		}
+	);
+
+	// 레코드가 몇 개인지 찍어볼 것이다 64개
+	UE_LOG(LogTemp, Log, TEXT("이름에 따른 학생 맵의 레코드 수 : %d"), StudentsMapByUniqueName.Num());
+
+	//만약 중복을 허용하고 싶다면 TMultiMap을 사용해서 선언해 주면 중복가능한 맵 자료구조가 만들어진다.
+
+	TMultiMap<FString, int32> StudentMapByName;
+	Algo::Transform(StudentsData, StudentMapByName,
+		[](const FStudentData& Val)
+		{
+			return TPair<FString, int32>(Val.Name, Val.Order);
+		}
+	);
+
+	UE_LOG(LogTemp, Log, TEXT("이름에 따른 학생 멀티맵의 레코드 수 : %d"), StudentMapByName.Num());
+
+
+	/*어떤 이름을 가진 학생이 몇명인지*/
+	const FString TargetName(TEXT("이혜은"));
+	TArray<int32> AllOrders;
+	StudentMapByName.MultiFind(TargetName, AllOrders);
+
+	UE_LOG(LogTemp, Log, TEXT("이름이 %s인 학생 수 : %d"), *TargetName, AllOrders.Num());
+
+
+	/*FStudentData를 TSet에서 사용*/
+	TSet<FStudentData> StudentsSet;
+	for (int32 ix = 1; ix <= StudentNum; ++ix)
+	{
+		StudentsSet.Emplace(FStudentData(MakeRandomName(), ix));
+	}
 }
